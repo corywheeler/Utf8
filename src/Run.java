@@ -15,6 +15,8 @@ public class Run {
 
 	public static void main(String[] args) throws MalformedURLException, V1Exception {
 		
+		// NEED TO ADJUST THE OID TOKENS TO PULL STORIES FROM YOUR TEST SYSTEM.
+		
 		System.out.println("Up and running");
 		
 		V1Connector connector = V1Connector
@@ -25,8 +27,9 @@ public class Run {
 		
 		IServices services = new Services(connector);
 
+		// See Defect D-13051 for the value that must be in the Story we get the data from below.
 		 IAssetType assetType = services.getAssetType("Story");
-		 Oid storyId = services.getOid("Story:2011");
+		 Oid storyId = services.getOid("Story:1012");
 		 Query query = new Query(storyId);
 		 IAttributeDefinition descriptionAttribute = assetType.getAttributeDefinition("Description");
 		 query.getSelection().add(descriptionAttribute);
@@ -36,7 +39,7 @@ public class Run {
 		 System.out.println(story1Description);
 		
 		 
-		 Oid updateStoryId = services.getOid("Story:2012");
+		 Oid updateStoryId = services.getOid("Story:1013");
 		 query = new Query(updateStoryId);
 		 query.getSelection().add(descriptionAttribute);
 		 
@@ -46,7 +49,5 @@ public class Run {
 		 Asset retrievedUpdateStory = resultForStoryToUpdate.getAssets()[0];
 		 retrievedUpdateStory.setAttributeValue(descriptionAttribute, story1Description);
 		 services.save(retrievedUpdateStory);
-
-
 	}
 }
